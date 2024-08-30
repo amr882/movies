@@ -1,0 +1,11 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
+  background_image: "assets/splashscreen.png"
+  image: "assets/Funflix.png"
+
+  android_12:
+     background_image: "assets/splashscreen.png"
+     image: "assets/Funflix.png"
