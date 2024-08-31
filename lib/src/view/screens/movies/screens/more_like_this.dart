@@ -33,23 +33,23 @@ class _MoreLikeThisState extends State<MoreLikeThis> {
   @override
   Widget build(BuildContext context) {
     return isLoding
-        ? Center(
-            child: CircularProgressIndicator(),
-          )
+        ? CircularProgressIndicator()
         : SizedBox(
-          height: 900.h,
-          child: GridView.builder(
-            physics: 
-            BouncingScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 0.6),
-              itemBuilder: (context, i) => MovieCard(
-                  onTap: () {
-                    print(topMovies[i].id);
-                  },
-                  height: 32.h,
-                  big_image: topMovies[i].big_image,
-                  title: topMovies[i].title)),
-        );
+            child: GridView(
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, childAspectRatio: 0.6),
+                children: List.generate(
+                  topMovies.length,
+                  (i) => MovieCard(
+                      onTap: () {
+                        print(topMovies[i].id);
+                      },
+                      height: 31.h,
+                      big_image: topMovies[i].big_image,
+                      title: topMovies[i].title),
+                )),
+          );
   }
 }
