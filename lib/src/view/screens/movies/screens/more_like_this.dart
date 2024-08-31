@@ -24,17 +24,32 @@ class _MoreLikeThisState extends State<MoreLikeThis> {
   }
 
   @override
+  void initState() {
+    fetchTopMovies();
+    print('done');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-        physics: BouncingScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, childAspectRatio: 0.6),
-        itemBuilder: (context, i) => MovieCard(
-            onTap: () {
-              print(topMovies[i].id);
-            },
-            height: 32.h,
-            big_image: topMovies[i].big_image,
-            title: topMovies[i].title));
+    return isLoding
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : SizedBox(
+          height: 900.h,
+          child: GridView.builder(
+            physics: 
+            BouncingScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, childAspectRatio: 0.6),
+              itemBuilder: (context, i) => MovieCard(
+                  onTap: () {
+                    print(topMovies[i].id);
+                  },
+                  height: 32.h,
+                  big_image: topMovies[i].big_image,
+                  title: topMovies[i].title)),
+        );
   }
 }

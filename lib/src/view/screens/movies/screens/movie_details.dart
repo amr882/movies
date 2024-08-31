@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/src/feature/model/movies/movie_details_model.dart';
+import 'package:movie_app/src/feature/model/movies/top_movie_model.dart';
+import 'package:movie_app/src/feature/service/api/movie_api.dart';
 import 'package:movie_app/src/view/screens/movies/screens/comments.dart';
 import 'package:movie_app/src/view/screens/movies/screens/more_like_this.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/costume_sliver_app_bar.dart';
@@ -27,6 +29,8 @@ class _MovieDetailsState extends State<MovieDetails> {
   String? movieThumbnail;
   bool isLoading = true;
 
+  bool isMoviesLoding = true;
+
   void getVideo() {
     final videoId =
         YoutubePlayer.convertUrlToId(widget.movieDetailsModel.trailer);
@@ -38,6 +42,15 @@ class _MovieDetailsState extends State<MovieDetails> {
 
       print(movieThumbnail);
       isLoading = false;
+    });
+  }
+
+  List<TopMovieModel> topMovies = [];
+  Future<void> fetchTopMovies() async {
+    final List<TopMovieModel> topMoviesList = await MovieApi.fetchTopMovies();
+    setState(() {
+      topMovies = topMoviesList;
+      isMoviesLoding = false;
     });
   }
 
@@ -56,7 +69,7 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   int currentIndex = 0;
-  List<Widget> pages = [MoreLikeThis(), Comments()];
+  List<StatefulWidget> pages = [MoreLikeThis(), Comments()];
 
   @override
   Widget build(BuildContext context) {
@@ -263,16 +276,48 @@ class _MovieDetailsState extends State<MovieDetails> {
                         : Color(0xff797979)),
               ],
             )),
-       
+            SliverToBoxAdapter(
+              child: Container(
+                  color: Colors.red,
+                  child: GridView(
+                    physics: BouncingScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 0.6),
+                    children: const [
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                      Text('data'),
+                    ],
+                  )),
+            ),
           ],
         ));
   }
 }
-
-
-
-    //  SliverToBoxAdapter(
-    //           child: Column(
-    //             children: [pages[currentIndex]],
-    //           ),
-    //         ),
