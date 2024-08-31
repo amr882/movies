@@ -33,7 +33,15 @@ class _MoreLikeThisState extends State<MoreLikeThis> {
   @override
   Widget build(BuildContext context) {
     return isLoding
-        ? CircularProgressIndicator()
+        ? Center(
+            child: Column(
+            children: [
+              SizedBox(
+                height: 2.h,
+              ),
+              CircularProgressIndicator(color: Colors.orange,),
+            ],
+          ))
         : SizedBox(
             child: GridView(
                 shrinkWrap: true,
