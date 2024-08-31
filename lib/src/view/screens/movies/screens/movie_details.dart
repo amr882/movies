@@ -263,12 +263,16 @@ class _MovieDetailsState extends State<MovieDetails> {
                         : Color(0xff797979)),
               ],
             )),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [pages[currentIndex]],
-              ),
-            ),
+       
           ],
         ));
   }
 }
+
+
+
+    //  SliverToBoxAdapter(
+    //           child: Column(
+    //             children: [pages[currentIndex]],
+    //           ),
+    //         ),
