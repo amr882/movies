@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/main.dart';
 import 'package:movie_app/src/feature/model/movies/top_movie_model.dart';
 import 'package:movie_app/src/feature/service/api/movie_api.dart';
 import 'package:movie_app/src/view/screens/movies/screens/movie_details.dart';
@@ -15,15 +16,10 @@ class ShowAllMovies extends StatefulWidget {
 }
 
 class _ShowAllMoviesState extends State<ShowAllMovies> {
-  bool isLoding = true;
-  List<TopMovieModel> topMovies = [];
-
   Future<void> fetchAllTopMovies() async {
-    final List<TopMovieModel> topMoviesList =
-        await MovieApi.fetchTopMovies();
+    final List<TopMovieModel> topMoviesList = await MovieApi.fetchTopMovies();
     setState(() {
       topMovies = topMoviesList;
-      isLoding = false;
     });
   }
 
@@ -36,7 +32,7 @@ class _ShowAllMoviesState extends State<ShowAllMovies> {
 
   @override
   void initState() {
-    fetchAllTopMovies();
+    topMovies.isEmpty ? fetchAllTopMovies() : print('every thing good');
     print(100.h);
     super.initState();
   }
@@ -63,7 +59,7 @@ class _ShowAllMoviesState extends State<ShowAllMovies> {
         ),
       ),
       backgroundColor: Color(0xff16161c),
-      body: isLoding
+      body: topMovies.isEmpty
           ? Center(
               child: CircularProgressIndicator(
                 color: Colors.orange,

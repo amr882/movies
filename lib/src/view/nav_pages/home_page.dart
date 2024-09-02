@@ -2,10 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/main.dart';
 import 'package:movie_app/src/feature/model/movies/top_movie_model.dart';
+import 'package:movie_app/src/feature/model/series/top_series_model.dart';
 import 'package:movie_app/src/feature/service/api/movie_api.dart';
+import 'package:movie_app/src/feature/service/api/series_api.dart';
 import 'package:movie_app/src/view/screens/movies/screens/movie_details.dart';
-import 'package:movie_app/src/view/screens/movies/widgets/show_all_movies.dart';
+import 'package:movie_app/src/view/screens/movies/screens/series_details.dart';
+import 'package:movie_app/src/view/screens/movies/screens/show_all_series.dart';
+import 'package:movie_app/src/view/screens/movies/widgets/series_card.dart';
+import 'package:movie_app/src/view/screens/movies/screens/show_all_movies.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/movie_card.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/poster_card.dart';
 import 'package:sizer/sizer.dart';
@@ -19,22 +25,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isLoding = true;
+  bool isLoading = true;
 
-  List<TopMovieModel> topMovies = [];
-  Future<void> fetchTopMovies() async {
+  //fetchTopMovies
+  Future<void> fetchTopMoviesSeries() async {
     final List<TopMovieModel> topMoviesList = await MovieApi.fetchTopMovies();
+    final List<TopSeriesModel> topSeriesList = await SeriesApi.fetchTopSeries();
+
     setState(() {
       topMovies = topMoviesList;
-      isLoding = false;
     });
-  }
+    print(topMovies);
 
-  @override
-  void initState() {
-    fetchTopMovies();
-    print(100.h);
-    super.initState();
+    setState(() {
+      topSeries = topSeriesList;
+    });
+    print(topSeries);
   }
 
   // get movie details
@@ -44,13 +50,32 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => MovieDetails(movieDetailsModel: movieDetails)));
   }
 
+  // get movie details
+  Future<void> fetchSeriesDetails(BuildContext context, String seriesId) async {
+    final seriesDetails = await SeriesApi.fetchSeriesDetails(seriesId);
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => SeriesDetails(
+              seriesDetailsModel: seriesDetails,
+            )));
+  }
+
+  @override
+  void initState() {
+    topMovies.isEmpty || topSeries.isEmpty
+        ? fetchTopMoviesSeries()
+        : print('every thing is good here!');
+    print(100.h);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<TopMovieModel> shuffledMovies = List.from(topMovies)..shuffle();
+    List<TopSeriesModel> shuffledSeries = List.from(topSeries)..shuffle();
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return Scaffold(
         backgroundColor: Color(0xff16161c),
-        body: isLoding
+        body: topMovies.isEmpty || topSeries.isEmpty
             ? Center(
                 child: CircularProgressIndicator(
                   color: Colors.orange,
@@ -69,6 +94,7 @@ class _HomePageState extends State<HomePage> {
                       ),
 
                       // posters
+
                       isPortrait
                           ? CarouselSlider.builder(
                               itemCount: 10,
@@ -98,6 +124,7 @@ class _HomePageState extends State<HomePage> {
                               height: 100,
                               color: Colors.white,
                             ),
+
                       SizedBox(
                         height: 2.h,
                       ),
@@ -109,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Latest Shows',
+                              'Movies',
                               style: GoogleFonts.rubik(
                                   color: Color(0xffff2f2f),
                                   fontWeight: FontWeight.bold,
@@ -141,8 +168,7 @@ class _HomePageState extends State<HomePage> {
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                            children:
-                                List.generate(shuffledMovies.length, (index) {
+                            children: List.generate(20, (index) {
                           final movie = shuffledMovies[index];
 
                           return MovieCard(
@@ -158,6 +184,59 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         height: 2.h,
                       ),
+
+                      //series
+
+                      // show all series
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 2.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Series',
+                              style: GoogleFonts.rubik(
+                                  color: Color(0xffff2f2f),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 1.5.h),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ShowAllSeries()));
+                              },
+                              child: Text(
+                                'Show all',
+                                style: GoogleFonts.rubik(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 1.5.h),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+
+                      SingleChildScrollView(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            children: List.generate(20, (index) {
+                          final serie = shuffledSeries[index];
+
+                          return SeriesCard(
+                            big_image: serie.big_image,
+                            title: serie.title,
+                            height: 25.h,
+                            onTap: () {
+                              fetchSeriesDetails(context, serie.id);
+                            },
+                          );
+                        })),
+                      ),
                     ],
                   ),
                 ),
@@ -172,3 +251,15 @@ class _HomePageState extends State<HomePage> {
 //   itemBuilder: (context, i) => MovieCard(
 //       big_image: topMovies[i].big_image,
 //       title: topMovies[i].title)),
+
+
+
+
+
+
+
+
+
+
+
+

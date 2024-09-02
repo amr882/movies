@@ -1,62 +1,50 @@
-// ignore_for_file: unused_field
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movie_app/src/feature/model/movies/movie_details_model.dart';
-import 'package:movie_app/src/feature/model/movies/top_movie_model.dart';
-import 'package:movie_app/src/feature/service/api/movie_api.dart';
+import 'package:movie_app/src/feature/model/series/series_details_model.dart';
 import 'package:movie_app/src/view/screens/movies/screens/comments.dart';
-import 'package:movie_app/src/view/screens/movies/widgets/more_movies_like_this.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/costume_sliver_app_bar.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/custom_tab_bar.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/download_button.dart';
+import 'package:movie_app/src/view/screens/movies/widgets/more_series_like_this.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/play_button.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/rating.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class MovieDetails extends StatefulWidget {
-  final MovieDetailsModel movieDetailsModel;
-  const MovieDetails({super.key, required this.movieDetailsModel});
+class SeriesDetails extends StatefulWidget {
+  final SeriesDetailsModel seriesDetailsModel;
+  const SeriesDetails({super.key, required this.seriesDetailsModel});
 
   @override
-  State<MovieDetails> createState() => _MovieDetailsState();
+  State<SeriesDetails> createState() => _SeriesDetailsState();
 }
 
-class _MovieDetailsState extends State<MovieDetails> {
+class _SeriesDetailsState extends State<SeriesDetails> {
   late YoutubePlayerController _youtubePlayerController;
-  String? movieThumbnail;
+  String? seriesThumbnail;
   bool isLoading = true;
 
-  bool isMoviesLoding = true;
+  bool isSeriesLoding = true;
 
   void getVideo() {
     final videoId =
-        YoutubePlayer.convertUrlToId(widget.movieDetailsModel.trailer);
+        YoutubePlayer.convertUrlToId(widget.seriesDetailsModel.trailer);
     final videoThumbnail = YoutubePlayer.getThumbnail(videoId: videoId!);
     _youtubePlayerController = YoutubePlayerController(
         initialVideoId: videoId, flags: YoutubePlayerFlags(autoPlay: false));
     setState(() {
-      movieThumbnail = videoThumbnail;
+      seriesThumbnail = videoThumbnail;
 
-      print(movieThumbnail);
+      print(seriesThumbnail);
       isLoading = false;
-    });
-  }
-
-  List<TopMovieModel> topMovies = [];
-  Future<void> fetchTopMovies() async {
-    final List<TopMovieModel> topMoviesList = await MovieApi.fetchTopMovies();
-    setState(() {
-      topMovies = topMoviesList;
-      isMoviesLoding = false;
+      print(widget.seriesDetailsModel.trailer);
     });
   }
 
   Future shareMovieTrailer() async {
     Share.share(
-        'check out this movie trailer ${widget.movieDetailsModel.trailer}',
+        'check out this movie trailer ${widget.seriesDetailsModel.trailer}',
         subject: 'movie trailer');
     print('done');
   }
@@ -64,26 +52,15 @@ class _MovieDetailsState extends State<MovieDetails> {
   @override
   void initState() {
     getVideo();
-    print(widget.movieDetailsModel.year);
+    print(widget.seriesDetailsModel.year);
     super.initState();
   }
 
   int currentIndex = 0;
-  List<StatefulWidget> pages = [MoreMoviesLikeThis(), Comments()];
+  List<StatefulWidget> pages = [MoreSeriesLikeThis(), Comments()];
 
   @override
   Widget build(BuildContext context) {
-    String gener = widget.movieDetailsModel.genre
-        .toString()
-        .replaceAll(RegExp(r'\[|\]'), '');
-    String director = widget.movieDetailsModel.director
-        .toString()
-        .replaceAll(RegExp(r'\[|\]'), '');
-
-    String writers = widget.movieDetailsModel.writers
-        .toString()
-        .replaceAll(RegExp(r'\[|\]'), '');
-
     return Scaffold(
         backgroundColor: Color(0xff16161c),
         body: CustomScrollView(
@@ -96,7 +73,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                     ),
                   )
                 : CostumeSliverAppBar(
-                    background: movieThumbnail!,
+                    background: seriesThumbnail!,
                   ),
             SliverToBoxAdapter(
               child: Padding(
@@ -107,9 +84,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.movieDetailsModel.title.length <= 20
-                          ? widget.movieDetailsModel.title
-                          : "${widget.movieDetailsModel.title.substring(0, 20)}...",
+                      widget.seriesDetailsModel.title.length <= 20
+                          ? widget.seriesDetailsModel.title
+                          : "${widget.seriesDetailsModel.title.substring(0, 20)}...",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: GoogleFonts.rubik(
@@ -144,8 +121,8 @@ class _MovieDetailsState extends State<MovieDetails> {
               ),
             ),
             Rating(
-              rating: widget.movieDetailsModel.rating,
-              year: widget.movieDetailsModel.year.toString(),
+              rating: widget.seriesDetailsModel.rating.toString(),
+              year: widget.seriesDetailsModel.year.toString(),
             ),
             SliverToBoxAdapter(
               child: Padding(
@@ -188,20 +165,6 @@ class _MovieDetailsState extends State<MovieDetails> {
               ),
             ),
             SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 5.w,
-                ),
-                child: Text(
-                  'Genre: $gener',
-                  style: GoogleFonts.rubik(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 1.6.h),
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
               child: SizedBox(
                 height: 2.h,
               ),
@@ -212,38 +175,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                   horizontal: 5.w,
                 ),
                 child: Text(
-                  widget.movieDetailsModel.description,
+                  widget.seriesDetailsModel.description,
                   style: GoogleFonts.rubik(
                       color: Colors.white, fontWeight: FontWeight.w500),
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 2.h,
-                  horizontal: 5.w,
-                ),
-                child: Text(
-                  'director: $director',
-                  style: GoogleFonts.rubik(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 1.6.h),
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 5.w,
-                ),
-                child: Text(
-                  'Writers: $writers',
-                  style: GoogleFonts.rubik(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 1.6.h),
                 ),
               ),
             ),
@@ -279,7 +213,7 @@ class _MovieDetailsState extends State<MovieDetails> {
             )),
             SliverToBoxAdapter(
               child: pages[currentIndex],
-            ),
+            )
           ],
         ));
   }

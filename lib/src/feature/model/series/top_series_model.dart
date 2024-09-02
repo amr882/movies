@@ -1,14 +1,28 @@
-class TopSeriesModel {}
+// ignore_for_file: non_constant_identifier_names
 
+class TopSeriesModel {
+  String title;
+  String id;
+  String year;
+  String big_image;
+  double rating;
 
+  TopSeriesModel(
+      {required this.title,
+      required this.id,
+      required this.big_image,
+      required this.rating,
+      required this.year});
 
-
-
-
-
-
-
-
+  factory TopSeriesModel.fromJson(Map<String, dynamic> json) {
+    return TopSeriesModel(
+        title: json['title'],
+        id: json['id'],
+        big_image: json['big_image'],
+        rating: json['rating'].toDouble(),
+        year: json['year']);
+  }
+}
 
 // rank:13
 // title:"Game of Thrones"

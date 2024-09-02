@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 class Rating extends StatelessWidget {
-  final int year;
+  final String year;
   final String rating;
   const Rating({super.key, required this.year, required this.rating});
 
@@ -37,7 +37,7 @@ class Rating extends StatelessWidget {
               ),
             ),
             Text(
-              "$year",
+              year,
               style: GoogleFonts.rubik(
                   color: Colors.white, fontWeight: FontWeight.w500),
             ),

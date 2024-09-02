@@ -8,7 +8,7 @@ class MovieApi {
   static String topMovieUrl = 'https://imdb-top-100-movies.p.rapidapi.com/';
   static String movieDetailsUrl = 'https://imdb-top-100-movies.p.rapidapi.com/';
   static Map<String, String> headers = {
-    'X-Rapidapi-Key': '617a5f9f89msh6c14593083def35p1669c7jsnc3920947b667',
+    'X-Rapidapi-Key': '0f96ff25c5msh5366e782cb43a25p14a3b6jsnaad60850ef81',
     'X-Rapidapi-Host': 'imdb-top-100-movies.p.rapidapi.com'
   };
 

@@ -1,45 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/main.dart';
 import 'package:movie_app/src/feature/model/movies/top_movie_model.dart';
 import 'package:movie_app/src/feature/service/api/movie_api.dart';
+import 'package:movie_app/src/view/screens/movies/screens/movie_details.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/movie_card.dart';
 import 'package:sizer/sizer.dart';
 
-class MoreLikeThis extends StatefulWidget {
-  const MoreLikeThis({super.key});
+class MoreMoviesLikeThis extends StatefulWidget {
+  const MoreMoviesLikeThis({super.key});
 
   @override
-  State<MoreLikeThis> createState() => _MoreLikeThisState();
+  State<MoreMoviesLikeThis> createState() => _MoreMoviesLikeThisState();
 }
 
-class _MoreLikeThisState extends State<MoreLikeThis> {
-  bool isLoding = true;
-
-  List<TopMovieModel> topMovies = [];
+class _MoreMoviesLikeThisState extends State<MoreMoviesLikeThis> {
   Future<void> fetchTopMovies() async {
     final List<TopMovieModel> topMoviesList = await MovieApi.fetchTopMovies();
     setState(() {
       topMovies = topMoviesList;
-      isLoding = false;
     });
+  }
+
+  Future<void> fetchMovieDetails(BuildContext context, String movieId) async {
+    final movieDetails = await MovieApi.fetchMovieDetails(movieId);
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => MovieDetails(movieDetailsModel: movieDetails)));
   }
 
   @override
   void initState() {
-    fetchTopMovies();
-    print('done');
+    topMovies.isEmpty ? fetchTopMovies : print(topMovies);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return isLoding
+    return topMovies.isEmpty
         ? Center(
             child: Column(
             children: [
               SizedBox(
                 height: 2.h,
               ),
-              CircularProgressIndicator(color: Colors.orange,),
+              CircularProgressIndicator(
+                color: Colors.orange,
+              ),
             ],
           ))
         : SizedBox(
@@ -52,7 +57,7 @@ class _MoreLikeThisState extends State<MoreLikeThis> {
                   topMovies.length,
                   (i) => MovieCard(
                       onTap: () {
-                        print(topMovies[i].id);
+                        fetchMovieDetails(context, topMovies[i].id);
                       },
                       height: 31.h,
                       big_image: topMovies[i].big_image,

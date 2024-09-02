@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:movie_app/src/feature/auth/login/lets_you_in.dart';
 import 'package:movie_app/src/feature/auth/login/sign_in.dart';
+import 'package:movie_app/src/feature/model/movies/top_movie_model.dart';
+import 'package:movie_app/src/feature/model/series/top_series_model.dart';
+import 'package:movie_app/src/feature/service/api/movie_api.dart';
+import 'package:movie_app/src/feature/service/api/series_api.dart';
 import 'package:movie_app/src/view/screens/account%20setup/fill_your_profile.dart';
 import 'package:movie_app/src/view/nav_pages/home_page.dart';
 import 'package:movie_app/src/view/screens/intro_page.dart';
@@ -38,6 +42,23 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool isLoading = true;
+  Future<void> fetchTopMoviesSeries() async {
+    final List<TopMovieModel> topMoviesList = await MovieApi.fetchTopMovies();
+    final List<TopSeriesModel> topSeriesList = await SeriesApi.fetchTopSeries();
+
+    setState(() {
+      topMovies = topMoviesList;
+    });
+    print(topMovies);
+
+    setState(() {
+      topSeries = topSeriesList;
+      isLoading = false;
+    });
+    print(topSeries);
+  }
+
   @override
   void initState() {
     initialization();
@@ -48,7 +69,7 @@ class _MyAppState extends State<MyApp> {
         print('User is signed in!');
       }
     });
-
+    fetchTopMoviesSeries();
     super.initState();
   }
 
@@ -64,9 +85,16 @@ class _MyAppState extends State<MyApp> {
     return Sizer(builder: (context, orientation, deviceType) {
       return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: FirebaseAuth.instance.currentUser == null
-              ? IntroPage()
-              : CustomBottomNavigationBar(),
+          home: isLoading
+              ? Scaffold(
+                  backgroundColor: Color(0xff16161c),
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : FirebaseAuth.instance.currentUser == null
+                  ? IntroPage()
+                  : CustomBottomNavigationBar(),
           routes: {
             'homepage': (context) => HomePage(),
             'letsYouIn': (context) => LetsYouIn(),
@@ -76,3 +104,6 @@ class _MyAppState extends State<MyApp> {
     });
   }
 }
+
+List<TopSeriesModel> topSeries = [];
+List<TopMovieModel> topMovies = [];

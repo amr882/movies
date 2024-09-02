@@ -4,12 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class MovieCard extends StatefulWidget {
-  final String big_image;
+class SeriesCard extends StatefulWidget {
+  final String? big_image;
   final String title;
   final double height;
   final Function() onTap;
-  const MovieCard(
+  const SeriesCard(
       {super.key,
       required this.big_image,
       required this.title,
@@ -17,10 +17,10 @@ class MovieCard extends StatefulWidget {
       required this.onTap});
 
   @override
-  State<MovieCard> createState() => _MovieCardState();
+  State<SeriesCard> createState() => _SeriesCardState();
 }
 
-class _MovieCardState extends State<MovieCard> {
+class _SeriesCardState extends State<SeriesCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -33,7 +33,7 @@ class _MovieCardState extends State<MovieCard> {
             ClipRRect(
               borderRadius: BorderRadius.circular(13),
               child: CachedNetworkImage(
-                imageUrl: widget.big_image,
+                imageUrl: widget.big_image!,
                 height: widget.height,
                 fit: BoxFit.cover,
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
@@ -45,21 +45,6 @@ class _MovieCardState extends State<MovieCard> {
                         )),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
-
-              //  Image.network(
-              //   widget.big_image,
-              // height: widget.height,
-              // fit: BoxFit.cover,
-              //   loadingBuilder: (context, child, loadingProgress) {
-              //     if (loadingProgress == null) {
-              //       return child;
-              //     } else {
-              //       return SizedBox(
-              //           height: widget.height,
-              //           child: Center(child: CircularProgressIndicator()));
-              //     }
-              //   },
-              // ),
             ),
             SizedBox(
               height: 1.h,
@@ -88,3 +73,40 @@ class _MovieCardState extends State<MovieCard> {
     );
   }
 }
+
+
+              // Image.network(
+              //   errorBuilder: (BuildContext context, Object error,
+              //       StackTrace? stackTrace) {
+              //     return Center(
+              //       child: Column(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: const [
+              //           Icon(
+              //             Icons.error,
+              //             color: Colors.white,
+              //           ),
+              //           Text(
+              //             'error to get movie photo!',
+              //             style: TextStyle(color: Colors.white),
+              //           )
+              //         ],
+              //       ),
+              //     );
+              //   },
+              // widget.big_image!,
+              // height: widget.height,
+              // fit: BoxFit.cover,
+              //   loadingBuilder: (context, child, loadingProgress) {
+              //     if (loadingProgress == null) {
+              //       return child;
+              //     } else {
+              //       return SizedBox(
+              //           height: widget.height,
+              //           child: Center(
+              //               child: CircularProgressIndicator(
+              //             color: Colors.orange,
+              //           )));
+              //     }
+              //   },
+              // ),
