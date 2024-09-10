@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayButton extends StatelessWidget {
-  final void Function()? onTap;
-
+  final YoutubePlayer youtubePlayer;
   const PlayButton({
     super.key,
-    this.onTap,
+    required this.youtubePlayer,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        showDialog(
+            context: (context),
+            builder: (context) => Center(
+                  child: Material(child: youtubePlayer),
+                ));
+      },
       child: Container(
         width: 40.w,
         height: 7.h,

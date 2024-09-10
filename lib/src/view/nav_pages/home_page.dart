@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                            children: List.generate(20, (index) {
+                            children: List.generate(10, (index) {
                           final movie = shuffledMovies[index];
 
                           return MovieCard(
@@ -224,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                            children: List.generate(20, (index) {
+                            children: List.generate(10, (index) {
                           final serie = shuffledSeries[index];
 
                           return SeriesCard(

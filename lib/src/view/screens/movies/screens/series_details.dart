@@ -132,29 +132,21 @@ class _SeriesDetailsState extends State<SeriesDetails> {
                   children: [
                     // play button
                     PlayButton(
-                      onTap: () {
-                        showDialog(
-                            context: (context),
-                            builder: (context) => Center(
-                                  child: Material(
-                                    child: YoutubePlayer(
-                                      controller: _youtubePlayerController,
-                                      showVideoProgressIndicator: true,
-                                      progressIndicatorColor: Colors.amber,
-                                      progressColors: const ProgressBarColors(
-                                        playedColor: Colors.amber,
-                                        handleColor: Colors.amberAccent,
-                                      ),
-                                      onReady: () {
-                                        _youtubePlayerController.play();
-                                      },
-                                      onEnded: (val) {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ),
-                                ));
-                      },
+                      youtubePlayer: YoutubePlayer(
+                        controller: _youtubePlayerController,
+                        showVideoProgressIndicator: true,
+                        progressIndicatorColor: Colors.amber,
+                        progressColors: const ProgressBarColors(
+                          playedColor: Colors.amber,
+                          handleColor: Colors.amberAccent,
+                        ),
+                        onReady: () {
+                          _youtubePlayerController.play();
+                        },
+                        onEnded: (val) {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                     ),
                     // download button
                     DownloadButton(

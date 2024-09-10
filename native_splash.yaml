@@ -1,7 +1,7 @@
 flutter_native_splash:
   android: true
   ios: true
-  web: false
+  web: true
 
   background_image: "assets/splashscreen.png"
   image: "assets/Funflix.png"

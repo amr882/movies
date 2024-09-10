@@ -1,5 +1,4 @@
 // ignore_for_file: unused_field
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/src/feature/model/movies/movie_details_model.dart';
@@ -155,32 +154,25 @@ class _MovieDetailsState extends State<MovieDetails> {
                   children: [
                     // play button
                     PlayButton(
-                      onTap: () {
-                        showDialog(
-                            context: (context),
-                            builder: (context) => Center(
-                                  child: Material(
-                                    child: YoutubePlayer(
-                                      controller: _youtubePlayerController,
-                                      showVideoProgressIndicator: true,
-                                      progressIndicatorColor: Colors.amber,
-                                      progressColors: const ProgressBarColors(
-                                        playedColor: Colors.amber,
-                                        handleColor: Colors.amberAccent,
-                                      ),
-                                      onReady: () {
-                                        _youtubePlayerController.play();
-                                      },
-                                      onEnded: (val) {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ),
-                                ));
-                      },
+                      youtubePlayer: YoutubePlayer(
+                        controller: _youtubePlayerController,
+                        showVideoProgressIndicator: true,
+                        progressIndicatorColor: Colors.amber,
+                        progressColors: const ProgressBarColors(
+                          playedColor: Colors.amber,
+                          handleColor: Colors.amberAccent,
+                        ),
+                        onReady: () {
+                          _youtubePlayerController.play();
+                        },
+                        onEnded: (val) {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                     ),
                     // download button
                     DownloadButton(
+                      url: widget.movieDetailsModel.trailer,
                       onTap: () {},
                     )
                   ],
