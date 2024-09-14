@@ -5,7 +5,6 @@ import 'package:movie_app/src/feature/model/movies/movie_details_model.dart';
 import 'package:movie_app/src/feature/model/movies/top_movie_model.dart';
 import 'package:movie_app/src/feature/service/api/movie_api.dart';
 import 'package:movie_app/src/view/screens/movies/screens/comments.dart';
-import 'package:movie_app/src/view/screens/movies/widgets/more_movies_like_this.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/costume_sliver_app_bar.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/custom_tab_bar.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/download_button.dart';
@@ -68,7 +67,12 @@ class _MovieDetailsState extends State<MovieDetails> {
   }
 
   int currentIndex = 0;
-  List<StatefulWidget> pages = [MoreMoviesLikeThis(), Comments()];
+  List<StatefulWidget> pages = [
+    
+    // MoreMoviesLikeThis(),
+    Comments(), Comments()
+    
+    ];
 
   @override
   Widget build(BuildContext context) {

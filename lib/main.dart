@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:movie_app/src/feature/auth/login/lets_you_in.dart';
 import 'package:movie_app/src/feature/auth/login/sign_in.dart';
@@ -16,7 +17,13 @@ import 'package:movie_app/src/view/screens/intro_page.dart';
 import 'package:movie_app/src/widgets/bottom_navigation_bar.dart';
 import 'package:sizer/sizer.dart';
 
-void main() async {
+Future<void> main() async {
+
+    WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(
+    debug: true,
+    ignoreSsl: true
+  );
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   WidgetsFlutterBinding.ensureInitialized();
@@ -104,6 +111,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 }
+
 
 List<TopSeriesModel> topSeries = [];
 List<TopMovieModel> topMovies = [];

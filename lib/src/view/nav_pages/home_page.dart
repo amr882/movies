@@ -220,23 +220,23 @@ class _HomePageState extends State<HomePage> {
                         height: 2.h,
                       ),
 
-                      SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                            children: List.generate(10, (index) {
-                          final serie = shuffledSeries[index];
+                      // SingleChildScrollView(
+                      //   physics: BouncingScrollPhysics(),
+                      //   scrollDirection: Axis.horizontal,
+                      //   child: Row(
+                      //       children: List.generate(10, (index) {
+                      //     final serie = shuffledSeries[index];
 
-                          return SeriesCard(
-                            big_image: serie.big_image,
-                            title: serie.title,
-                            height: 25.h,
-                            onTap: () {
-                              fetchSeriesDetails(context, serie.id);
-                            },
-                          );
-                        })),
-                      ),
+                      //     return SeriesCard(
+                      //       big_image: serie.big_image,
+                      //       title: serie.title,
+                      //       height: 25.h,
+                      //       onTap: () {
+                      //         fetchSeriesDetails(context, serie.id);
+                      //       },
+                      //     );
+                      //   })),
+                      // ),
                     ],
                   ),
                 ),

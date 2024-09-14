@@ -63,6 +63,7 @@ dependencies:
   youtube_explode_dart: ^2.2.1
   dio: ^5.7.0
   image_gallery_saver: ^2.0.3
+  flutter_downloader: ^1.11.8
 
 dev_dependencies:
   flutter_test:
