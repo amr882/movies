@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class DownloadPage extends StatefulWidget {
   const DownloadPage({super.key});
@@ -14,18 +16,42 @@ class DownloadPage extends StatefulWidget {
 }
 
 class _DownloadPageState extends State<DownloadPage> {
-  Future<void> download() async {
+  Future<void> download(String url) async {
     var status = await Permission.storage.request();
     if (status.isGranted) {
       var baseStorage = await getExternalStorageDirectory();
 
+// to generate download link
+      var youtube = YoutubeExplode();
+      var streamManifest = await youtube.videos.streamsClient.getManifest(url);
+      var videoFuture = youtube.videos.get(url);
+      var video = await videoFuture;
+
+      var videoStreams = streamManifest.video;
+
+      var oStream = videoStreams.withHighestBitrate();
+      print(oStream.url.toString()); // download link
+
+      var downloadDir = Directory('${baseStorage!.path}/${video.title}.mp4');
+      await downloadDir.create(recursive: true);
+      // Check if the file already exists
+
+      final filePath = '${baseStorage.path}/${video.title}.mp4';
+      final file = File(filePath);
+      if (await file.exists()) {
+        print('File already exists.+++++++++++++++++++++++++++++++++++++++++++++++++++++');
+        return;
+      }
+  
       await FlutterDownloader.enqueue(
-        url:
-            'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4',
-        savedDir: baseStorage!.path,
+        url: oStream.url.toString(),
+        savedDir: baseStorage.path,
         showNotification: true,
         openFileFromNotification: true,
+        fileName: video.title
+
       );
+      print('${baseStorage.path}/${video.title}.mp4');
     }
   }
 
@@ -38,11 +64,9 @@ class _DownloadPageState extends State<DownloadPage> {
     IsolateNameServer.registerPortWithName(
         _port.sendPort, 'downloader_send_port');
     _port.listen((dynamic data) {
-      String id = data[0];
-      DownloadTaskStatus status = data[1];
-      int progress = data[2];
+      DownloadTaskStatus status = data[1] as DownloadTaskStatus;
       if (status == DownloadTaskStatus.complete) {
-        print('complet');
+        print('complete');
       }
       setState(() {});
     });
@@ -71,7 +95,10 @@ class _DownloadPageState extends State<DownloadPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                download(
+                    'https://www.youtube.com/watch?v=4xG2aJa6UyY&ab_channel=AdamEschborn');
+              },
               color: Colors.blue,
               child: Text('download'),
             ),
