@@ -3,6 +3,7 @@ xmlns:tools="http://schemas.android.com/tools">
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
     <application
         android:label="movie_app"
         tools:replace="android:label"
@@ -56,6 +57,15 @@ xmlns:tools="http://schemas.android.com/tools">
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+               <provider android:name="androidx.core.content.FileProvider"
+                  android:authorities="${applicationId}.fileProvider"
+                  android:exported="false"
+                  android:grantUriPermissions="true"
+                  tools:replace="android:authorities">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
+                       android:resource="@xml/filepaths"
+                       tools:replace="android:resource" />
+        </provider>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

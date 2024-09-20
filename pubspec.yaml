@@ -64,6 +64,8 @@ dependencies:
   dio: ^5.7.0
   image_gallery_saver: ^2.0.3
   flutter_downloader: ^1.11.8
+  open_file_plus: ^3.4.1+1
+  video_thumbnail: ^0.5.3
 
 dev_dependencies:
   flutter_test:

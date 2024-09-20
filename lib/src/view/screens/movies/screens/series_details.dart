@@ -57,12 +57,9 @@ class _SeriesDetailsState extends State<SeriesDetails> {
 
   int currentIndex = 0;
   List<StatefulWidget> pages = [
-    
     // MoreMoviesLikeThis(),
     Comments(), Comments()
-    
-    ];
-
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -155,6 +152,7 @@ class _SeriesDetailsState extends State<SeriesDetails> {
                     ),
                     // download button
                     DownloadButton(
+                      url: widget.seriesDetailsModel.trailer,
                       onTap: () {},
                     )
                   ],

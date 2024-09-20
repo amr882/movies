@@ -1,12 +1,14 @@
 import 'dart:io';
-import 'dart:isolate';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/src/widgets/delete_buttom_sheet.dart';
+import 'package:movie_app/src/widgets/download_card.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:sizer/sizer.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:path/path.dart' as p;
 
 class DownloadPage extends StatefulWidget {
   const DownloadPage({super.key});
@@ -16,95 +18,115 @@ class DownloadPage extends StatefulWidget {
 }
 
 class _DownloadPageState extends State<DownloadPage> {
-  Future<void> download(String url) async {
-    var status = await Permission.storage.request();
-    if (status.isGranted) {
-      var baseStorage = await getExternalStorageDirectory();
+  bool isLoading = true;
+  List<Map<dynamic, dynamic>> data = [];
+  // List<Uint8List> thumbnail = [];
 
-// to generate download link
-      var youtube = YoutubeExplode();
-      var streamManifest = await youtube.videos.streamsClient.getManifest(url);
-      var videoFuture = youtube.videos.get(url);
-      var video = await videoFuture;
+  Future<void> checkDirectoryForNewFiles() async {
+    Directory directory;
+    directory = (await getExternalStorageDirectory())!;
 
-      var videoStreams = streamManifest.video;
+    String newPath = '${directory.path}/Movie app Downloads/';
+    directory = Directory(newPath);
+    List<FileSystemEntity> files = directory.listSync();
 
-      var oStream = videoStreams.withHighestBitrate();
-      print(oStream.url.toString()); // download link
-
-      var downloadDir = Directory('${baseStorage!.path}/${video.title}.mp4');
-      await downloadDir.create(recursive: true);
-      // Check if the file already exists
-
-      final filePath = '${baseStorage.path}/${video.title}.mp4';
-      final file = File(filePath);
-      if (await file.exists()) {
-        print('File already exists.+++++++++++++++++++++++++++++++++++++++++++++++++++++');
-        return;
-      }
-  
-      await FlutterDownloader.enqueue(
-        url: oStream.url.toString(),
-        savedDir: baseStorage.path,
-        showNotification: true,
-        openFileFromNotification: true,
-        fileName: video.title
-
+    for (FileSystemEntity file in files) {
+      final uint8list = await VideoThumbnail.thumbnailData(
+        video: file.path,
+        imageFormat: ImageFormat.PNG,
+        // maxHeight: 20.h.round(),
+        // maxWidth: 25.w.round(),
+        timeMs: 4000,
+        quality: 100,
       );
-      print('${baseStorage.path}/${video.title}.mp4');
+      String fileName = p.basename(file.path);
+
+      print(file.path);
+      data.add({
+        'path': file.path,
+        'thumbnail': uint8list,
+        'name': fileName,
+      });
+      if (RegExp(r'\btakeout\b').hasMatch(file.uri.toString())) {
+        print('error');
+      }
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
-  final ReceivePort _port = ReceivePort();
+  Future<void> openFile(String filePath) async {
+    OpenFile.open(filePath);
+  }
+
+  void deleteFile(String filePath) async {
+    File file = File(filePath);
+    if (await file.exists()) {
+      await file.delete();
+      print('File deleted successfully.');
+      setState(() {
+        data.removeWhere((item) => item['path'] == filePath);
+      });
+    } else {
+      print('File not found.');
+    }
+  }
 
   @override
   void initState() {
+    checkDirectoryForNewFiles();
     super.initState();
-
-    IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      DownloadTaskStatus status = data[1] as DownloadTaskStatus;
-      if (status == DownloadTaskStatus.complete) {
-        print('complete');
-      }
-      setState(() {});
-    });
-
-    FlutterDownloader.registerCallback(downloadCallback);
-  }
-
-  @override
-  void dispose() {
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
-    super.dispose();
-  }
-
-  @pragma('vm:entry-point')
-  static void downloadCallback(String id, int status, int progress) {
-    final SendPort? send =
-        IsolateNameServer.lookupPortByName('downloader_send_port');
-    send!.send([id, status, progress]);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MaterialButton(
-              onPressed: () {
-                download(
-                    'https://www.youtube.com/watch?v=4xG2aJa6UyY&ab_channel=AdamEschborn');
-              },
-              color: Colors.blue,
-              child: Text('download'),
-            ),
-          ],
+        backgroundColor: Color.fromRGBO(22, 22, 28, 1),
+        appBar: AppBar(
+          title: Text(
+            'Downloads',
+            style: GoogleFonts.rubik(
+                color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.transparent,
         ),
-      ),
-    );
+        body: data.isEmpty
+            ? Center(
+                child: Text(
+                  'no downloads',
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
+            : isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return DownloadCard(
+                        uint8list: data[index]['thumbnail'],
+                        videoName: data[index]['name'],
+                        openVideo: () {
+                          openFile(data[index]['path']);
+                        },
+                        deleteVideo: () {
+                          showModalBottomSheet(
+                              backgroundColor: Color(0xff272828),
+                              context: context,
+                              builder: (context) => DeleteButtomSheet(
+                                    delete: () {
+                                      deleteFile(data[index]['path']);
+                                      Navigator.of(context).pop();
+                                    },
+                                    cancel: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ));
+                        },
+                      );
+                    }));
   }
 }

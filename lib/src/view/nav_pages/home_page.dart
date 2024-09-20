@@ -10,7 +10,6 @@ import 'package:movie_app/src/feature/service/api/series_api.dart';
 import 'package:movie_app/src/view/screens/movies/screens/movie_details.dart';
 import 'package:movie_app/src/view/screens/movies/screens/series_details.dart';
 import 'package:movie_app/src/view/screens/movies/screens/show_all_series.dart';
-import 'package:movie_app/src/view/screens/movies/widgets/series_card.dart';
 import 'package:movie_app/src/view/screens/movies/screens/show_all_movies.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/movie_card.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/poster_card.dart';
