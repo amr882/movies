@@ -6,7 +6,6 @@ import 'package:movie_app/src/widgets/delete_buttom_sheet.dart';
 import 'package:movie_app/src/widgets/download_card.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:sizer/sizer.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:path/path.dart' as p;
 

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/main.dart';
+import 'package:movie_app/src/feature/model/movies/top_movie_model.dart';
+import 'package:sizer/sizer.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -8,114 +12,52 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  List filteredMovies = [];
+  List<TopMovieModel> searchMovies= topMovies;
+  void onSearch(String search) {
+    setState(() {
+      filteredMovies = searchMovies
+          .where((element) => element.title.toLowerCase().contains(search))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      backgroundColor: Color(0xff16161c),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: TextField(
+              style: GoogleFonts.rubik(color: Colors.white),
+              cursorColor: Colors.white,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Search",
+                hintStyle: TextStyle(
+                  color: Colors.white,
+                ),
+                filled: true,
+                fillColor: Color(0xff272828),
+                suffixIcon: Icon(
+                  Icons.search_rounded,
+                  color: Colors.white,
+                ),
+                enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: Colors.transparent)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: Colors.transparent)),
+              ),
+              onSubmitted: (val) => onSearch(val),
+              // onChanged: (value) => onSearch(value),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
-
-
-
-
-
-  
-//   final Dio dio = Dio();
-//   bool loading = false;
-//   double progress = 0;
-
-//   Future<bool> saveVideo(String url, String fileName) async {
-//     Directory directory;
-//     try {
-//       if (Platform.isAndroid) {
-//         if (await _requestPermission(Permission.storage)) {
-//           directory = await getApplicationDocumentsDirectory();
-//           String newPath = '${directory.path}/videos';
-//           directory = Directory(newPath);
-//           print(directory);
-//         } else {
-//           return false;
-//         }
-//       } else {
-//         if (await _requestPermission(Permission.photos)) {
-//           directory = await getTemporaryDirectory();
-//         } else {
-//           return false;
-//         }
-//       }
-//       File saveFile = File("${directory.path}/$fileName");
-//       if (!await directory.exists()) {
-//         await directory.create(recursive: true);
-//       }
-//       if (await directory.exists()) {
-//         await dio.download(url, saveFile.path,
-//             onReceiveProgress: (value1, value2) {
-//           setState(() {
-//             progress = value1 / value2;
-//           });
-//         });
-//         if (Platform.isIOS) {
-//           await ImageGallerySaver.saveFile(saveFile.path,
-//               isReturnPathOfIOS: true);
-//         }
-//         return true;
-//       }
-//       return false;
-//     } catch (e) {
-//       print(e);
-//       return false;
-//     }
-//   }
-
-//   Future<bool> _requestPermission(Permission permission) async {
-//     if (await permission.isGranted) {
-//       return true;
-//     } else {
-//       var result = await permission.request();
-//       if (result == PermissionStatus.granted) {
-//         return true;
-//       }
-//     }
-//     return false;
-//   }
-
-//   downloadFile() async {
-//     setState(() {
-//       loading = true;
-//       progress = 0;
-//     });
-//     bool downloaded = await saveVideo(
-//         "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4",
-//         "test1.mp4");
-//     if (downloaded) {
-//       print("File Downloaded");
-//     } else {
-//       print("Problem Downloading File");
-//     }
-//     setState(() {
-//       loading = false;
-//     });
-//   }
-
-// // show file path from phone
-
-//   Future<void> checkDirectoryForNewFiles() async {
-//     Directory directory;
-//     directory = await getApplicationDocumentsDirectory();
-//     String newPath = '${directory.path}/videos/';
-//     directory = Directory(newPath);
-//     List<FileSystemEntity> files = directory.listSync();
-//     for (FileSystemEntity file in files) {
-//       print(file.path);
-//       if (RegExp(r'\btakeout\b').hasMatch(file.uri.toString())) {
-//         print('error');
-//       }
-//     }
-//   }
-
-
-
-
-
-
-
-              //  'https://www.youtube.com/watch?v=jNQXAC9IVRw&ab_channel=jawed';

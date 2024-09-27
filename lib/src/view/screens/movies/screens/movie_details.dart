@@ -177,7 +177,6 @@ class _MovieDetailsState extends State<MovieDetails> {
                     // download button
                     DownloadButton(
                       url: widget.movieDetailsModel.trailer,
-                      onTap: () {},
                     )
                   ],
                 ),

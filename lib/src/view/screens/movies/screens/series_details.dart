@@ -153,7 +153,6 @@ class _SeriesDetailsState extends State<SeriesDetails> {
                     // download button
                     DownloadButton(
                       url: widget.seriesDetailsModel.trailer,
-                      onTap: () {},
                     )
                   ],
                 ),
@@ -170,7 +169,7 @@ class _SeriesDetailsState extends State<SeriesDetails> {
                   horizontal: 5.w,
                 ),
                 child: Text(
-                  widget.seriesDetailsModel.description,
+                  'description : ${widget.seriesDetailsModel.description}',
                   style: GoogleFonts.rubik(
                       color: Colors.white, fontWeight: FontWeight.w500),
                 ),

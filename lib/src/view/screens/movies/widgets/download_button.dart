@@ -11,12 +11,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class DownloadButton extends StatefulWidget {
-  final void Function()? onTap;
   final String? url;
-
   const DownloadButton({
     super.key,
-    required this.onTap,
     required this.url,
   });
 
@@ -28,8 +25,7 @@ class _DownloadButtonState extends State<DownloadButton> {
   Future<void> download(String url) async {
     var status = await Permission.storage.request();
     if (status.isGranted) {
-
-           String? externalStoragePath =
+      String? externalStoragePath =
           '${(await getExternalStorageDirectory())!.path}/Movie app Downloads/';
 // to generate download link
       var youtube = YoutubeExplode();
@@ -42,33 +38,10 @@ class _DownloadButtonState extends State<DownloadButton> {
       var oStream = videoStreams.withHighestBitrate();
       print(oStream.url.toString()); // download link
 
-      // final filePath = '${(await getApplicationDocumentsDirectory()).path}/videos';
-      // final file = File(filePath);
-      // if (await file.exists()) {
-      //   // Show a message indicating the file already exists
-      //   showDialog(
-      //     context: context, // Replace with your context
-      //     builder: (context) => AlertDialog(
-      //       title: Text('File Already Exists'),
-      //       content: Text(
-      //           'The file "${video.title}.mp4" has already been downloaded.'),
-      //       actions: [
-      //         TextButton(
-      //           onPressed: () => Navigator.pop(context),
-      //           child: Text('OK'),
-      //         ),
-      //       ],
-      //     ),
-      //   );
-      //   return;
-      // }
-      //
-      
-   final directory = Directory(externalStoragePath);
-        if (!await directory.exists()) {
-            await directory.create();
-        }
- 
+      final directory = Directory(externalStoragePath);
+      if (!await directory.exists()) {
+        await directory.create();
+      }
 
       FlutterDownloader.enqueue(
         url: oStream.url.toString(),
@@ -84,12 +57,12 @@ class _DownloadButtonState extends State<DownloadButton> {
 
   @override
   void initState() {
-
-  IsolateNameServer.registerPortWithName(_port.sendPort, 'downloader_send_port');
-  _port.listen((dynamic data) {
-    String id = data[0];
-    DownloadTaskStatus status = DownloadTaskStatus.values[data[1]];
-    int progress = data[2];
+    IsolateNameServer.registerPortWithName(
+        _port.sendPort, 'downloader_send_port');
+    _port.listen((dynamic data) {
+      String id = data[0];
+      DownloadTaskStatus status = DownloadTaskStatus.values[data[1]];
+      int progress = data[2];
       if (status == DownloadTaskStatus.complete) {
         print('complete');
       }
@@ -151,17 +124,3 @@ class _DownloadButtonState extends State<DownloadButton> {
     );
   }
 }
-
-
-  //     .get('https://www.youtube.com/watch?v=jNQXAC9IVRw&ab_channel=jawed');
-
-  // Future<String> getDownloadUrl(String url) async {
-  //   var youtube = YoutubeExplode();
-  //   var streamManifest =
-  //       await youtube.videos.streamsClient.getManifest(url);
-  //   var videoStreams = streamManifest.video;
-  //   var oStream = videoStreams.withHighestBitrate();
-  //   print(oStream.url.toString());
-  //   return oStream.url.toString();
-  // }
-
