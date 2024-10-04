@@ -49,9 +49,11 @@ class _DownloadPageState extends State<DownloadPage> {
       if (RegExp(r'\btakeout\b').hasMatch(file.uri.toString())) {
         print('error');
       }
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 

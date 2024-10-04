@@ -29,7 +29,7 @@ class _MovieDetailsState extends State<MovieDetails> {
 
   bool isMoviesLoding = true;
 
-  void getVideo() {
+  Future<void> getVideo() async {
     final videoId =
         YoutubePlayer.convertUrlToId(widget.movieDetailsModel.trailer);
     final videoThumbnail = YoutubePlayer.getThumbnail(videoId: videoId!);
@@ -68,11 +68,9 @@ class _MovieDetailsState extends State<MovieDetails> {
 
   int currentIndex = 0;
   List<StatefulWidget> pages = [
-    
     // MoreMoviesLikeThis(),
     Comments(), Comments()
-    
-    ];
+  ];
 
   @override
   Widget build(BuildContext context) {

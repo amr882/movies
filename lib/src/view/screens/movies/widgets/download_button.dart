@@ -27,22 +27,20 @@ class _DownloadButtonState extends State<DownloadButton> {
     if (status.isGranted) {
       String? externalStoragePath =
           '${(await getExternalStorageDirectory())!.path}/Movie app Downloads/';
-// to generate download link
+      // to generate download link
       var youtube = YoutubeExplode();
       var streamManifest = await youtube.videos.streamsClient.getManifest(url);
-      var videoFuture = youtube.videos.get(url);
-      var video = await videoFuture;
-
       var videoStreams = streamManifest.muxed;
-
       var oStream = videoStreams.withHighestBitrate();
       print(oStream.url.toString()); // download link
+
+      var videoFuture = youtube.videos.get(url);
+      var video = await videoFuture;
 
       final directory = Directory(externalStoragePath);
       if (!await directory.exists()) {
         await directory.create();
       }
-
       FlutterDownloader.enqueue(
         url: oStream.url.toString(),
         savedDir: externalStoragePath,

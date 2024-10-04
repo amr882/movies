@@ -41,7 +41,7 @@ class _LetsYouInState extends State<LetsYouIn> {
     // Once signed in, return the UserCredential
     await FirebaseAuth.instance.signInWithCredential(credential);
     Navigator.of(context).pushNamedAndRemoveUntil(
-      'homepage',
+      'customBottomNavigationBar',
       (route) => false,
     );
   }
@@ -59,7 +59,7 @@ class _LetsYouInState extends State<LetsYouIn> {
         // success
         print('====== Login success ======');
         Navigator.of(context).pushNamedAndRemoveUntil(
-          'homepage',
+          'customBottomNavigationBar',
           (route) => false,
         );
         break;

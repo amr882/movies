@@ -18,12 +18,8 @@ import 'package:movie_app/src/widgets/bottom_navigation_bar.dart';
 import 'package:sizer/sizer.dart';
 
 Future<void> main() async {
-
-    WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize(
-    debug: true,
-    ignoreSsl: true
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   WidgetsFlutterBinding.ensureInitialized();
@@ -106,12 +102,13 @@ class _MyAppState extends State<MyApp> {
             'homepage': (context) => HomePage(),
             'letsYouIn': (context) => LetsYouIn(),
             'SignIn': (context) => SignIn(),
-            'FillYourProfile': (context) => FillYourProfile()
+            'FillYourProfile': (context) => FillYourProfile(),
+            'customBottomNavigationBar': (context) =>
+                CustomBottomNavigationBar(),
           });
     });
   }
 }
-
 
 List<TopSeriesModel> topSeries = [];
 List<TopMovieModel> topMovies = [];
