@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -32,18 +31,35 @@ class _SeriesCardState extends State<SeriesCard> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(13),
-              child: CachedNetworkImage(
-                imageUrl: widget.big_image!,
+              child:
+                  //  CachedNetworkImage(
+                  //   imageUrl: widget.big_image!,
+                  //   height: widget.height,
+                  //   fit: BoxFit.cover,
+                  //   progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  //       SizedBox(
+                  //           height: widget.height,
+                  //           child: Center(
+                  //             child: CircularProgressIndicator(
+                  //                 color: Colors.orange,
+                  //                 value: downloadProgress.progress),
+                  //           )),
+                  //   errorWidget: (context, url, error) => Icon(Icons.error),
+                  // ),
+
+                  Image.network(
+                widget.big_image!,
                 height: widget.height,
                 fit: BoxFit.cover,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    SizedBox(
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return SizedBox(
                         height: widget.height,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                              value: downloadProgress.progress),
-                        )),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                        child: Center(child: CircularProgressIndicator()));
+                  }
+                },
               ),
             ),
             SizedBox(

@@ -25,6 +25,13 @@ class _DownloadButtonState extends State<DownloadButton> {
   Future<void> download(String url) async {
     var status = await Permission.storage.request();
     if (status.isGranted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          duration: Duration(seconds: 5),
+          backgroundColor: const Color.fromARGB(255, 54, 54, 54),
+          content: Text(
+            'Your download will start soon!...',
+            style: TextStyle(color: Colors.white),
+          )));
       String? externalStoragePath =
           '${(await getExternalStorageDirectory())!.path}/Movie app Downloads/';
       // to generate download link

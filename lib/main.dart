@@ -52,13 +52,10 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       topMovies = topMoviesList;
-    });
-    print(topMovies);
-
-    setState(() {
       topSeries = topSeriesList;
       isLoading = false;
     });
+    print(topMovies);
     print(topSeries);
   }
 
@@ -112,3 +109,4 @@ class _MyAppState extends State<MyApp> {
 
 List<TopSeriesModel> topSeries = [];
 List<TopMovieModel> topMovies = [];
+  // cached_network_image: ^3.4.0

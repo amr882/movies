@@ -13,6 +13,7 @@ import 'package:movie_app/src/view/screens/movies/screens/show_all_series.dart';
 import 'package:movie_app/src/view/screens/movies/screens/show_all_movies.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/movie_card.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/poster_card.dart';
+import 'package:movie_app/src/view/screens/movies/widgets/series_card.dart';
 import 'package:sizer/sizer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -219,23 +220,23 @@ class _HomePageState extends State<HomePage> {
                         height: 2.h,
                       ),
 
-                      // SingleChildScrollView(
-                      //   physics: BouncingScrollPhysics(),
-                      //   scrollDirection: Axis.horizontal,
-                      //   child: Row(
-                      //       children: List.generate(10, (index) {
-                      //     final serie = shuffledSeries[index];
+                      SingleChildScrollView(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            children: List.generate(10, (index) {
+                          final serie = shuffledSeries[index];
 
-                      //     return SeriesCard(
-                      //       big_image: serie.big_image,
-                      //       title: serie.title,
-                      //       height: 25.h,
-                      //       onTap: () {
-                      //         fetchSeriesDetails(context, serie.id);
-                      //       },
-                      //     );
-                      //   })),
-                      // ),
+                          return SeriesCard(
+                            big_image: serie.big_image,
+                            title: serie.title,
+                            height: 25.h,
+                            onTap: () {
+                              fetchSeriesDetails(context, serie.id);
+                            },
+                          );
+                        })),
+                      ),
                     ],
                   ),
                 ),
@@ -250,15 +251,3 @@ class _HomePageState extends State<HomePage> {
 //   itemBuilder: (context, i) => MovieCard(
 //       big_image: topMovies[i].big_image,
 //       title: topMovies[i].title)),
-
-
-
-
-
-
-
-
-
-
-
-

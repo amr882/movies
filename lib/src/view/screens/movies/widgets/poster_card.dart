@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
@@ -35,39 +34,25 @@ class Poster extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: CachedNetworkImage(
-                    imageUrl: big_image,
-                    width: 80.w,
-                    height: 43.628.h,
-                    fit: BoxFit.cover,
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => SizedBox(
-                            height: 43.628.h,
-                            width: 80.w,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                  value: downloadProgress.progress),
-                            )),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
+                  child: 
 
-                  // Image.network(
-                  //   fit: BoxFit.fill,
-                  //   big_image,
-                  // width: 80.w,
-                  // height: 43.628.h,
-                  //   loadingBuilder: (context, child, loadingProgress) {
-                  //     if (loadingProgress == null) {
-                  //       return child;
-                  //     } else {
-                  //       return Container(
-                  //         color: Colors.white,
-                  //         width: 80.w,
-                  //         height: 43.628.h,
-                  //       );
-                  //     }
-                  //   },
-                  // ),
+                  Image.network(
+                    fit: BoxFit.fill,
+                    big_image,
+                  width: 80.w,
+                  height: 43.628.h,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      } else {
+                        return Container(
+                          color: Colors.white,
+                          width: 80.w,
+                          height: 43.628.h,
+                        );
+                      }
+                    },
+                  ),
                 ),
                 SvgPicture.asset(
                   fit: BoxFit.fill,
