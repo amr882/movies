@@ -65,9 +65,7 @@ class _DownloadButtonState extends State<DownloadButton> {
     IsolateNameServer.registerPortWithName(
         _port.sendPort, 'downloader_send_port');
     _port.listen((dynamic data) {
-      String id = data[0];
       DownloadTaskStatus status = DownloadTaskStatus.values[data[1]];
-      int progress = data[2];
       if (status == DownloadTaskStatus.complete) {
         print('complete');
       }
