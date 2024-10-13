@@ -60,6 +60,9 @@ class _SeriesCardState extends State<SeriesCard> {
                         child: Center(child: CircularProgressIndicator()));
                   }
                 },
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(Icons.error);
+                },
               ),
             ),
             SizedBox(

@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
 
                       isPortrait
                           ? CarouselSlider.builder(
-                              itemCount: 10,
+                              itemCount: 5,
                               options: CarouselOptions(
                                   scrollPhysics: BouncingScrollPhysics(),
                                   height: 40.h,
@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                            children: List.generate(10, (index) {
+                            children: List.generate(6, (index) {
                           final movie = shuffledMovies[index];
 
                           return MovieCard(
@@ -224,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                            children: List.generate(10, (index) {
+                            children: List.generate(5, (index) {
                           final serie = shuffledSeries[index];
 
                           return SeriesCard(
