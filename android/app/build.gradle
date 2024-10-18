@@ -27,11 +27,11 @@ if (flutterVersionName == null) {
 android {
     namespace = "com.example.movie_app"
     compileSdk = 34
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility =  1.8
+        targetCompatibility =  1.8
     }
 
     defaultConfig {
@@ -52,6 +52,9 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 flutter {
@@ -60,7 +63,7 @@ flutter {
 
 dependencies {
   // Import the Firebase BoM
-  implementation platform('com.google.firebase:firebase-bom:33.1.1')
+  implementation platform('com.google.firebase:firebase-bom:33.4.0')
 
 
   // TODO: Add the dependencies for Firebase products you want to use

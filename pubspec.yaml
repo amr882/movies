@@ -48,7 +48,6 @@ dependencies:
   firebase_ui_auth: ^1.15.0
   phone_text_field: ^0.0.7
   image_picker: ^1.1.2
-  twitter_login: ^4.4.2
   path: ^1.9.0
   http: ^1.2.2
   salomon_bottom_bar: ^3.3.2
@@ -61,7 +60,6 @@ dependencies:
   path_provider: ^2.1.4
   youtube_explode_dart: ^2.2.2
   dio: ^5.7.0
-  image_gallery_saver: ^2.0.3
   flutter_downloader: ^1.11.8
   open_file_plus: ^3.4.1+1
   video_thumbnail: ^0.5.3

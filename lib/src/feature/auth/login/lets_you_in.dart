@@ -9,7 +9,6 @@ import 'package:movie_app/src/feature/auth/register/sign_up.dart';
 import 'package:movie_app/src/widgets/back_button.dart';
 import 'package:movie_app/src/widgets/button.dart';
 import 'package:sizer/sizer.dart';
-import 'package:twitter_login/twitter_login.dart';
 
 class LetsYouIn extends StatefulWidget {
   const LetsYouIn({super.key});
@@ -45,36 +44,6 @@ class _LetsYouInState extends State<LetsYouIn> {
       (route) => false,
     );
   }
-
-//twitter auth
-
-  Future signInWithTwitter() async {
-    final authResult = await TwitterLogin(
-      apiKey: 'Ul9meURrWHd1OG11LWFNT2oxU286MTpjaQ',
-      apiSecretKey: 'RaJR4_MAnI9mk4JhdrOZslp2cINK4nmzkRYTzoKkcoaNMFOL4U',
-      redirectURI: 'https://movies-cb85d.firebaseapp.com/__/auth/handler',
-    ).loginV2();
-    switch (authResult.status) {
-      case TwitterLoginStatus.loggedIn:
-        // success
-        print('====== Login success ======');
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          'customBottomNavigationBar',
-          (route) => false,
-        );
-        break;
-      case TwitterLoginStatus.cancelledByUser:
-        // cancel
-        print('====== Login cancel ======');
-        break;
-      case TwitterLoginStatus.error:
-      case null:
-        // error
-        print('====== Login error ======');
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +84,7 @@ class _LetsYouInState extends State<LetsYouIn> {
                 ),
                 ContinueWith(
                   onTap: () {
-                    signInWithTwitter();
+
                   },
                   continueWithImage: 'assets/twitter.svg',
                   methodName: 'Twitter',

@@ -46,7 +46,7 @@ class _FillYourProfileState extends State<FillYourProfile> {
 
     var imagePath = basename(imageValue.path);
     var refStorage = FirebaseStorage.instanceFor(
-      bucket: 'gs://movies-cb85d.appspot.com',
+      bucket: 'gs://movie-app-35f28.appspot.com',
     ).ref(imagePath);
 
     await refStorage.putFile(_image!);

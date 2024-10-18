@@ -25,6 +25,14 @@ class _DownloadPageState extends State<DownloadPage> {
     Directory directory;
     directory = (await getExternalStorageDirectory())!;
 
+    String? externalStoragePath =
+        '${(await getExternalStorageDirectory())!.path}/Movie app Downloads/';
+
+    final path = Directory(externalStoragePath);
+    if (!await path.exists()) {
+      await path.create();
+    }
+
     String newPath = '${directory.path}/Movie app Downloads/';
     directory = Directory(newPath);
     List<FileSystemEntity> files = directory.listSync();
