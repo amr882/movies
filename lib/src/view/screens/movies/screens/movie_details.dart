@@ -8,8 +8,10 @@ import 'package:movie_app/src/view/screens/movies/screens/comments.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/costume_sliver_app_bar.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/custom_tab_bar.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/download_button.dart';
+import 'package:movie_app/src/view/screens/movies/widgets/more_movies_like_this.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/play_button.dart';
 import 'package:movie_app/src/view/screens/movies/widgets/rating.dart';
+import 'package:movie_app/main.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -43,7 +45,6 @@ class _MovieDetailsState extends State<MovieDetails> {
     });
   }
 
-  List<TopMovieModel> topMovies = [];
   Future<void> fetchTopMovies() async {
     final List<TopMovieModel> topMoviesList = await MovieApi.fetchTopMovies();
     setState(() {
@@ -62,14 +63,15 @@ class _MovieDetailsState extends State<MovieDetails> {
   @override
   void initState() {
     getVideo();
+   topMovies.isEmpty ? fetchTopMovies() : print('every thing good');
     print(widget.movieDetailsModel.year);
     super.initState();
   }
 
   int currentIndex = 0;
   List<StatefulWidget> pages = [
-    // MoreMoviesLikeThis(),
-    Comments(), Comments()
+    MoreMoviesLikeThis(),
+    Comments()
   ];
 
   @override

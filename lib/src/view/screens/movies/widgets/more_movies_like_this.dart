@@ -54,7 +54,7 @@ class _MoreMoviesLikeThisState extends State<MoreMoviesLikeThis> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, childAspectRatio: 0.6),
                 children: List.generate(
-                  topMovies.length,
+                  10,
                   (i) => MovieCard(
                       onTap: () {
                         fetchMovieDetails(context, topMovies[i].id);

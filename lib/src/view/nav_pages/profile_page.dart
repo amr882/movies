@@ -22,14 +22,17 @@ class _ProfilePageState extends State<ProfilePage> {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   getProfileImage() {
     if (firebaseAuth.currentUser?.photoURL != null) {
-      return Image.network(
-        FirebaseAuth.instance.currentUser?.photoURL as String,
-        height: 18.h,
-        fit: BoxFit.cover,
+      return ClipOval(
+        child: Image.network(
+          FirebaseAuth.instance.currentUser!.photoURL.toString(),
+          fit: BoxFit.cover,
+          width: 12.h,
+          height: 12.h,
+        ),
       );
     } else {
       return Image.asset(
-        'images/20c00f0f135c950096a54b7b465e45cc.jpg',
+        'assets/Subtract (1).svg',
         width: 25.w,
         height: 12.h,
         fit: BoxFit.cover,
@@ -58,6 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
     var imageUrl = await refStorage.getDownloadURL();
     print(imageUrl);
     try {
+      FirebaseAuth.instance.currentUser!.updatePhotoURL(imageUrl);
       final querySnapshot = await FirebaseFirestore.instance
           .collection('users')
           .where('user_id', isEqualTo: userId)
@@ -136,7 +140,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ],
-              )
+              ),
+              
             ],
           ),
         ],

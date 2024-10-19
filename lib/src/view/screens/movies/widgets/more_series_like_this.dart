@@ -57,7 +57,7 @@ class _MoreSeriesLikeThisState extends State<MoreSeriesLikeThis> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, childAspectRatio: 0.6),
                 children: List.generate(
-                  20,
+                  10,
                   (i) => SeriesCard(
                       onTap: () {
                         fetchSeriesDetails(context, topSeries[i].id);
