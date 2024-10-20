@@ -63,6 +63,7 @@ dependencies:
   flutter_downloader: ^1.11.8
   open_file_plus: ^3.4.1+1
   video_thumbnail: ^0.5.3
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:

@@ -12,7 +12,6 @@ import 'package:movie_app/src/feature/model/series/top_series_model.dart';
 import 'package:movie_app/src/feature/service/api/movie_api.dart';
 import 'package:movie_app/src/feature/service/api/series_api.dart';
 import 'package:movie_app/src/view/screens/account%20setup/fill_your_profile.dart';
-import 'package:movie_app/src/view/nav_pages/home_page.dart';
 import 'package:movie_app/src/view/screens/intro_page.dart';
 import 'package:movie_app/src/widgets/bottom_navigation_bar.dart';
 import 'package:sizer/sizer.dart';
@@ -96,7 +95,6 @@ class _MyAppState extends State<MyApp> {
                   ? IntroPage()
                   : CustomBottomNavigationBar(),
           routes: {
-            'homepage': (context) => HomePage(),
             'letsYouIn': (context) => LetsYouIn(),
             'SignIn': (context) => SignIn(),
             'FillYourProfile': (context) => FillYourProfile(),

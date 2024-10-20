@@ -39,12 +39,18 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       );
     } else {
-      return Image.asset(
-        'assets/Subtract (1).svg',
-        width: 25.w,
-        height: 12.h,
-        fit: BoxFit.cover,
-      );
+      return Container(
+          height: 13.5.h,
+          width: 13.5.h,
+          decoration: BoxDecoration(
+              color: Color(0xff272828),
+              borderRadius: BorderRadius.circular(100)),
+          child: Center(
+              child: Icon(
+            Icons.person,
+            color: Color(0xff474747),
+            size: 8.h,
+          )));
     }
   }
 
@@ -153,7 +159,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 1.5.h,
               ),
               Text(
-                FirebaseAuth.instance.currentUser!.displayName.toString(),
+                FirebaseAuth.instance.currentUser?.displayName.toString() ==
+                        null
+                    ? 'user'
+                    : FirebaseAuth.instance.currentUser!.displayName.toString(),
                 style: GoogleFonts.rubik(
                     fontSize: 2.5.h,
                     color: Colors.white,

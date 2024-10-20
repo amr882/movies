@@ -62,7 +62,7 @@ class _SignInState extends State<SignIn> {
       QueryDocumentSnapshot currentUserDoc = data[currentUserIndex];
 
       checkFirstLogIn = currentUserDoc['first_login'] as bool;
-      print('+++++++++++++++++++++++++++++$checkFirstLogIn');
+      print('+++++++++++++++++++++++**********++++++$checkFirstLogIn');
     } else {
       print('Current user document not found in the list');
     }
@@ -81,8 +81,11 @@ class _SignInState extends State<SignIn> {
       setState(() {});
       // Navigate to homepage
       Navigator.of(context).pushNamedAndRemoveUntil(
-        checkFirstLogIn ? 'FillYourProfile' : 'homepage',
+        checkFirstLogIn ? 'FillYourProfile' : 'customBottomNavigationBar',
         (route) => false,
+      );
+      print(
+        checkFirstLogIn ? 'FillYourProfile' : 'customBottomNavigationBar',
       );
       print(
           '$checkFirstLogIn +++++++++++++++++++++++++++++++++++++++++++++----------++++++++++++++++');

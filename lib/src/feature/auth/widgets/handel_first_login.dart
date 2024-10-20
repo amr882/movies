@@ -11,6 +11,7 @@ Future handleFirstLogIn() async {
     if (querySnapshot.size == 1) {
       final docRef = querySnapshot.docs.first.reference;
       await docRef.set({'first_login': false}, SetOptions(merge: true));
+         print('good ************///////////////********');
     } else {
       // Handle cases where no document or multiple documents found
       print('Error: User document not found or multiple found');
