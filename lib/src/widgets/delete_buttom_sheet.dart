@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movie_app/src/widgets/button.dart';
 import 'package:movie_app/src/widgets/cancel_deletion.dart';
+import 'package:movie_app/src/widgets/confirm_deletion.dart';
 import 'package:sizer/sizer.dart';
 
 class DeleteButtomSheet extends StatelessWidget {
@@ -21,8 +21,8 @@ class DeleteButtomSheet extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 17.w,
-              height: 1.5.h,
+              width: 12.w,
+              height: 0.8.h,
               decoration: BoxDecoration(
                   color: Color(0xffff2f2f),
                   borderRadius: BorderRadius.circular(20)),
@@ -57,7 +57,11 @@ class DeleteButtomSheet extends StatelessWidget {
                   CancelDeletion(
                     cancel: cancel,
                   ),
-                  Button(onTap: delete, title: 'Delete', width: 30.w)
+SizedBox(width: 4.w,),
+                  ConfirmDeletion(
+                    confirm: delete,
+                  )
+                  // Button(onTap: delete, title: 'Delete', width: 30.w)
                 ],
               ),
             )

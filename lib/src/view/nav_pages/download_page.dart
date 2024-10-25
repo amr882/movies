@@ -41,8 +41,6 @@ class _DownloadPageState extends State<DownloadPage> {
       final uint8list = await VideoThumbnail.thumbnailData(
         video: file.path,
         imageFormat: ImageFormat.PNG,
-        // maxHeight: 20.h.round(),
-        // maxWidth: 25.w.round(),
         timeMs: 4000,
         quality: 100,
       );

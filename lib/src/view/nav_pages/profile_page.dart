@@ -123,12 +123,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Stack(
                         children: [
                           _image != null
-                              ? ClipOval(
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
                                   child: Image.file(
                                     _image!,
                                     fit: BoxFit.cover,
-                                    width: 12.h,
-                                    height: 12.h,
+                                    width: 15.h,
+                                    height: 15.h,
                                   ),
                                 )
                               : getProfileImage(),
